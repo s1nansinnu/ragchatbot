@@ -8,8 +8,6 @@ services:
       - key: GEMINI_API_KEY
         scope: service
         sync: false
-      - key: PYTHON_VERSION
-        value: 3.11
 
   - type: web
     name: ragchatbot-frontend
@@ -18,8 +16,4 @@ services:
     startCommand: streamlit run frontend/app.py --server.port=$PORT --server.address=0.0.0.0
     envVars:
       - key: BACKEND_URL
-        fromService:
-          name: ragchatbot-backend
-          property: url
-      - key: PYTHON_VERSION
-        value: 3.11
+        value: https://ragchatbot-backend.onrender.com
