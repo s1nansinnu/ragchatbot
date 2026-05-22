@@ -8,6 +8,8 @@ from pydantic import BaseModel
 from PyPDF2 import PdfReader
 import chromadb
 from google import genai
+from fastapi.middleware.cors import CORSMiddleware
+
 
 load_dotenv()
 
@@ -33,6 +35,14 @@ collection = chroma_client.get_or_create_collection(name=RAG_COLLECTION)
 
 app = FastAPI(title="RAG Chat Backend", description="PDF-based retrieval augmented generation chat using Google Gemini.")
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or specify: ["https://your-frontend.onrender.com"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 class ChatRequest(BaseModel):
     message: str
     top_k: int = DEFAULT_TOP_K
