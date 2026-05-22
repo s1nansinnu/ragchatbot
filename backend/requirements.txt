@@ -1,5 +1,6 @@
 google-genai
 uvicorn
+gunicorn
 fastapi
 python-dotenv
 PyPDF2

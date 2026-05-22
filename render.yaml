@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ragchatbot-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        scope: service
+        sync: false
+      - key: PYTHON_VERSION
+        value: 3.11
+
+  - type: web
+    name: ragchatbot-frontend
+    env: python
+    buildCommand: pip install -r frontend/requirements.txt
+    startCommand: streamlit run frontend/app.py --server.port=$PORT --server.address=0.0.0.0
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          name: ragchatbot-backend
+          property: url
+      - key: PYTHON_VERSION
+        value: 3.11
